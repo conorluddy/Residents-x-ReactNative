@@ -1,40 +1,34 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-// import {createStackNavigator} from '@react-navigation/stack';
 import {AuthProvider, useAuth} from './src/context/auth';
 import {LoginScreen} from './src/screens/Login';
 import {HomeScreen} from './src/screens/Home';
+import {StyleSheet, Text} from 'react-native';
 
-// const Stack = createStackNavigator();
-
-const Navigation = () => {
+function AuthWrapper(): React.JSX.Element {
   const {authData, loading} = useAuth();
 
-  if (loading) {
-    return <>Loading...</>;
-  }
+  if (loading) return <Text>Loading...</Text>;
 
-  return (
-    <NavigationContainer>
-      x
-      {/* <Stack.Navigator>
-        {authData ? (
-          <Stack.Screen name="Home" component={HomeScreen} />
-        ) : (
-          <Stack.Screen name="Login" component={LoginScreen} />
-        )}
-      </Stack.Navigator> */}
-    </NavigationContainer>
-  );
-};
+  if (!authData) return <LoginScreen />;
+
+  return <HomeScreen />;
+}
 
 function App(): React.JSX.Element {
   return (
     <AuthProvider>
-      Hey
-      {/* <Navigation /> */}
+      <AuthWrapper />
     </AuthProvider>
   );
 }
 
 export default App;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    padding: 16,
+  },
+});

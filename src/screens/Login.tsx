@@ -5,7 +5,7 @@ import {useAuth} from '../context/auth';
 export const LoginScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const {signIn} = useAuth();
+  const {signIn, authData} = useAuth();
 
   const handleLogin = async () => {
     try {

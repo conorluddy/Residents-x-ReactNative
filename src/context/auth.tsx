@@ -10,12 +10,7 @@ interface AuthContextData {
 }
 
 interface AuthData {
-  token: string;
-  user: {
-    id: string;
-    name: string;
-    // Add other user properties
-  };
+  accessToken: string;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -47,11 +42,13 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({
   const signIn = async (username: string, password: string) => {
     try {
       const response = await axios.post('http://localhost:3000/auth', {
-        username,
+        username: username.toLowerCase(),
         password,
       });
-      const {token, user} = response.data;
-      const _authData: AuthData = {token, user};
+
+      const {accessToken} = response.data;
+      const _authData: AuthData = {accessToken};
+
       setAuthData(_authData);
       AsyncStorage.setItem('@AuthData', JSON.stringify(_authData));
     } catch (error) {
